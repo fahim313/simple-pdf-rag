@@ -1,0 +1,29 @@
+# FastAPI
+fastapi>=0.115
+uvicorn[standard]>=0.34
+python-multipart>=0.0.20
+pydantic>=2.10
+
+# Environment variables
+python-dotenv>=1.0
+
+# LangChain
+langchain>=0.3
+langchain-core>=0.3
+langchain-community>=0.3
+langchain-groq>=1.1
+langchain-text-splitters>=0.3
+
+# PDF
+pypdf>=5.1
+
+# Vector store
+faiss-cpu>=1.12
+
+# CPU-only PyTorch
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.3
+
+# Local embeddings
+sentence-transformers>=3.0
+langchain-huggingface>=0.1 

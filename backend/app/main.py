@@ -2,6 +2,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, UploadFile
 from .ingestion import ingest_pdf
+from .embeddings import generate_embeddings
 
 app = FastAPI(
     title="Simple PDF RAG",
@@ -36,9 +37,12 @@ async def upload_pdf(file: UploadFile = File(...)):
     # Ingest PDF
     result = ingest_pdf(str(file_path))
 
+    embeddings = generate_embeddings(result["documents"])
+
     return {
-        "message": "PDF uploaded and processed successfully",
-        "filename": file.filename,
-        "pages": result["pages"],
-        "chunks": result["chunks"],
-    }
+    "message": "PDF processed successfully",
+    "filename": file.filename,
+    "pages": result["pages"],
+    "chunks": result["chunks"],
+    "embedding_dimension": len(embeddings[0]),
+}
