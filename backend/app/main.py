@@ -3,8 +3,9 @@ from pathlib import Path
 from fastapi import FastAPI, File, UploadFile
 
 from .ingestion import ingest_pdf
-from .embeddings import generate_embeddings, model
+from .embeddings import generate_embeddings, embedding_model
 from .database import create_vector_store, save_vector_store
+from .ragchain import ask_question
 
 
 app = FastAPI(
@@ -17,13 +18,6 @@ app = FastAPI(
 # Upload directory
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
-
-
-@app.get("/")
-def root():
-    return {
-        "message": "Simple PDF RAG API is running"
-    }
 
 
 @app.post("/upload")
@@ -47,12 +41,12 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     # Create FAISS vector store
     vector_store = create_vector_store(
-        result["documents"],
-        embeddings,
-        model,
-    )
+    result["documents"],
+    embeddings,
+    embedding_model,
+)
 
-    # Save the vector store
+    # Save FAISS vector store
     save_vector_store(vector_store)
 
     return {
@@ -61,4 +55,16 @@ async def upload_pdf(file: UploadFile = File(...)):
         "pages": result["pages"],
         "chunks": result["chunks"],
         "embedding_dimension": len(embeddings[0]),
+    }
+
+
+@app.get("/query")
+def query_pdf(question: str):
+
+    result = ask_question(question)
+
+    return {
+        "question": question,
+        "answer": result["answer"],
+        "sources": result["sources"],
     }

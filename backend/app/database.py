@@ -30,3 +30,20 @@ def save_vector_store(vector_store, path: str = "vector_store"):
     Path(path).mkdir(parents=True, exist_ok=True)
 
     vector_store.save_local(path)
+    
+    
+def load_vector_store(
+    path: str = "vector_store",
+    embedding_model=None,
+):
+    """
+    Load a FAISS vector store from disk.
+    """
+
+    vector_store = FAISS.load_local(
+        path,
+        embedding_model,
+        allow_dangerous_deserialization=True,
+    )
+
+    return vector_store    
