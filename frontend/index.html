@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple PDF RAG</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Header -->
+      <header>
+        <h2>📚 Simple PDF RAG</h2>
+      </header>
+
+      <!-- Chat -->
+      <main id="chat">
+        <div class="welcome">
+          <h1>What can I help you with?</h1>
+          <p>Upload a PDF and ask questions about it.</p>
+        </div>
+      </main>
+
+      <!-- Input -->
+      <div class="input-area">
+
+        <div class="input-box">
+
+          <div id="fileChipContainer" class="file-chip-container"></div>
+
+          <div class="input-row">
+
+            <label for="pdfFile" class="plus-btn">
+                +
+            </label>
+
+            <input
+                type="file"
+                id="pdfFile"
+                accept=".pdf"
+                hidden
+                onchange="handleFileSelect(event)"
+            >
+
+            <textarea
+                id="question"
+                placeholder="Ask anything about your PDF..."
+                rows="1"
+            ></textarea>
+
+            <button onclick="askQuestion()" id="sendBtn">
+                ↑
+            </button>
+
+          </div>
+
+        </div>
+
+        <p class="disclaimer">
+            Simple PDF RAG can make mistakes. Check important information.
+        </p>
+
+      </div>
+
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

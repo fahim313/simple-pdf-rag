@@ -6,12 +6,20 @@ from .ingestion import ingest_pdf
 from .embeddings import generate_embeddings, embedding_model
 from .database import create_vector_store, save_vector_store
 from .ragchain import ask_question
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Simple PDF RAG",
     description="A simple PDF-based RAG API",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -68,3 +76,4 @@ def query_pdf(question: str):
         "answer": result["answer"],
         "sources": result["sources"],
     }
+    
